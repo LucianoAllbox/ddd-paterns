@@ -36,18 +36,21 @@ export default class OrderItem {
 
     get price(): number {
         return this._price * this._quantity;
-    }
-
+      }
+    
     get quantity(): number {
         return this._quantity;
     }
 
-    orderItemTotal(): number {
-        return this._price * this._quantity;
+    get id(): string{
+        return this._id;
     }
-/*
-    total(): number {
-        return this._items.reduce((acc, item) => acc + item.orderItemTotal(), 0);
-    }    
-    */
-}
+
+    get name(): string{
+        return this._name;
+    }
+
+    get productId(): string{
+        return this._productId;
+    }
+} 
