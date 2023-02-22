@@ -1,3 +1,4 @@
 {
-    "editor.fontFamily": "Consolas, 'Courier New', monospace, 'CaskaydiaCove Nerd Font Mono'"
+    "editor.fontFamily": "Consolas, 'Courier New', monospace, 'CaskaydiaCove Nerd Font Mono'",
+    "DockerRun.DisableAutoGenerateConfig": true
 }

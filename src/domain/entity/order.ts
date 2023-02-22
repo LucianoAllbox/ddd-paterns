@@ -37,11 +37,15 @@ export default class Order{
     get customerId(): string{
         return this._customerId;
     }
-    get items(): OrderItem[]{
+    get items(): OrderItem[] {
         return this._items;
     }
 
-    total() : number{
-        return this,this._items.reduce((acc, item) => acc + item.price, 0);
+    set items(orderItens: OrderItem[]) {
+        this._items = orderItens;
     }
+
+    total(): number {
+        return this._items.reduce((acc, item) => acc + item.orderItemTotal(), 0);
+      }    
 }

@@ -35,11 +35,15 @@ export default class OrderItem {
     }
 
     get price(): number {
-        return this._price * this._quantity;
-      }
-    
+        return this._price;
+    }
+
     get quantity(): number {
         return this._quantity;
+    }
+    
+    set quantity (quantity: number) {
+        this._quantity = quantity;
     }
 
     get id(): string{
@@ -49,8 +53,15 @@ export default class OrderItem {
     get name(): string{
         return this._name;
     }
+    set name(name: string) {
+        this._name = name;
+    }
 
     get productId(): string{
         return this._productId;
     }
+
+    orderItemTotal(): number {
+        return this._price * this._quantity;
+      }
 } 
