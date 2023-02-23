@@ -10,10 +10,6 @@ export default class EventDispatcher implements EventDispatcherInterface {
         return this.eventHandlers;
     }
 
-    notify(event: eventInterface): void {
-        
-    }
-
     register(eventName: string, eventHandler: EventHandlerInterface): void {
         //não existe, adicionar como uma lista vazia
         if (!this.eventHandlers[eventName]){
@@ -34,5 +30,15 @@ export default class EventDispatcher implements EventDispatcherInterface {
 
     unregisterAll(): void {
         this.eventHandlers = {};
+    }
+
+    notify(event: eventInterface): void {
+        const eventName = event.constructor.name;
+
+        if (this.eventHandlers[eventName]){
+            this.eventHandlers[eventName].forEach((eventHandler) => {
+                eventHandler.handle(event);
+            })
+        }
     }
 }
