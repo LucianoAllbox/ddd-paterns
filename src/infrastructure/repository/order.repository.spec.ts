@@ -113,11 +113,12 @@ describe("Order repository test", () => {
     const product = new Product("P1", "Product 1", 10);
     await productRepository.create(product);
 
-    const ordemItem = new OrderItem("O.I.1", product.name, product.price, product.id, 3);
+    const ordemItem = new OrderItem("Item 1", product.name, product.price, product.id, 3);
 
     const order = new Order("OR1", "C1", [ordemItem]);
     const orderRepository = new OrderRepository();
     await orderRepository.create(order);
+
 
 
     const orderModel1 = await OrderModel.findOne({
@@ -125,31 +126,28 @@ describe("Order repository test", () => {
       include: ["items"],
     });
 
-    expect(order.items.length).toBe(1);
-
     const product2 = new Product("P2", "Product 2", 4);
     await productRepository.create(product2);
-    const ordemItem2 = new OrderItem("O.I.2", product2.name, product2.price, product2.id, 8);
+    const ordemItem2 = new OrderItem("Item 2", product2.name, product2.price, product2.id, 8);
     order.items.push(ordemItem2);
-    
-    expect(order.items.length).toBe(2);
-
    
     const product3 = new Product("P3", "Product 3", 8);
     await productRepository.create(product3);
-    const ordemItem3 = new OrderItem("O.I.3", product3.name, product3.price, product3.id, 7);
+    const ordemItem3 = new OrderItem("Item 3", product3.name, product3.price, product3.id, 7);
     order.items.push(ordemItem3);
     
-    
-
     await orderRepository.update(order);
-    expect(order.items.length).toBe(3);
+
+
 
     const orderModel = await OrderModel.findOne({
       where: { id: order.id },
-      include: ["items"],
+      include: {
+        model: OrderItemModel,
+      },
     });
 
+    expect(orderModel.items.length).toBe(3);
 
     expect(orderModel.toJSON()).toStrictEqual({
       id: "OR1",
@@ -163,6 +161,22 @@ describe("Order repository test", () => {
           quantity: ordemItem.quantity,
           order_id: "OR1",
           product_id: ordemItem.productId,
+        },
+        {
+          id: ordemItem2.id,
+          name: ordemItem2.name,
+          price: ordemItem2.price,
+          quantity: ordemItem2.quantity,
+          order_id: "OR1",
+          product_id: ordemItem2.productId,
+        },
+        {
+          id: ordemItem3.id,
+          name: ordemItem3.name,
+          price: ordemItem3.price,
+          quantity: ordemItem3.quantity,
+          order_id: "OR1",
+          product_id: ordemItem3.productId,
         },
       ],
     });
