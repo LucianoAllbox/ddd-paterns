@@ -17,6 +17,8 @@ export default class Customer {
         this._id = id;
         this._name = name;
 
+        this.validate();
+
         const eventDispatcher = new EventDispatcher();
         const eventHandler1 = new EnviaConsoleLog1Handler();
         const eventHandler2 = new EnviaConsoleLog2Handler();
@@ -26,9 +28,6 @@ export default class Customer {
         eventDispatcher.register("CustomerCreatedEvent", eventHandler1);
         eventDispatcher.register("CustomerCreatedEvent", eventHandler2);
         eventDispatcher.notify(customerCreatedEvent);
-
-        this.validate();
-
 
     }
 
