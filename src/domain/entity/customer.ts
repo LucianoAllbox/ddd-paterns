@@ -1,5 +1,8 @@
 import EventDispatcher from '../event/@shared/event-dispatcher';
 import CustomerAddressChangedEvent from '../event/customer/customer-address-changed.event';
+import CustomerCreatedEvent from '../event/customer/customer-created.event';
+import EnviaConsoleLog1Handler from '../event/customer/handler/EnviaConsoleLog1Handler.handler';
+import EnviaConsoleLog2Handler from '../event/customer/handler/EnviaConsoleLog2Handler.handler';
 import EnviaConsoleLogHandler from '../event/customer/handler/EnviaConsoleLogHandler';
 import Address from './address';
 
@@ -13,7 +16,20 @@ export default class Customer {
     constructor(id: string, name: string){
         this._id = id;
         this._name = name;
+
+        const eventDispatcher = new EventDispatcher();
+        const eventHandler1 = new EnviaConsoleLog1Handler();
+        const eventHandler2 = new EnviaConsoleLog2Handler();
+
+        const customerCreatedEvent = new CustomerCreatedEvent({});
+        
+        eventDispatcher.register("CustomerCreatedEvent", eventHandler1);
+        eventDispatcher.register("CustomerCreatedEvent", eventHandler2);
+        eventDispatcher.notify(customerCreatedEvent);
+
         this.validate();
+
+
     }
 
     validate(){
